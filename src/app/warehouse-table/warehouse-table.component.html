@@ -1,0 +1,74 @@
+
+<div *ngIf="!showInfo">
+    <h1>
+        Warehouse Table
+    </h1>
+    <table class="container">
+        <thead>
+            <tr>
+                <th>ID&emsp;</th>
+                <th>Name</th>
+                <th>Capacity</th>
+                <th>Company ID</th>
+                <th>Number of Employees</th>
+                <th>Adminisitrator ID</th>
+                <th>View</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let warehouse of warehouses">
+                <td>{{warehouse.id}}</td>
+                <td>{{warehouse.name}}</td>
+                <td>{{warehouse.capacity}}</td>
+                <td>{{warehouse.companyId}}</td>
+                <td>{{warehouse.numOfEmployees}}</td>
+                <td>{{warehouse.administratorId}}</td>
+                <td><button (click)="viewButton(warehouse)">View</button></td>
+                <td><button *ngIf="warehouse.administratorId == projectOneAPIService.adminId" (click)="viewButton(warehouse); warehouseEditButton()">Edit</button></td>
+                <td><button (click)="deleteButton(warehouse.id)" *ngIf="warehouse.administratorId == projectOneAPIService.adminId">Delete</button></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div *ngIf="showInfo">
+    <div>
+        <h2>Warehouse Details</h2>
+        <div>Name: {{selectedWarehouse.name}}</div>
+        <div>Capacity:{{currentAmountOfItems}}/{{selectedWarehouse.capacity}}</div>
+        <div>Company ID: {{selectedWarehouse.companyId}}</div>
+        <div>Number of Employees: {{selectedWarehouse.numOfEmployees}}</div>
+        <div>Adminisitrator: {{selectedWarehouse.administratorId}}</div>
+        <button *ngIf="selectedWarehouse.administratorId == projectOneAPIService.adminId" (click)="warehouseEditButton()">Edit</button>
+        <button (click)="addButton()">Add</button>
+        <button (click)="back()">Return</button>
+    </div>
+    <div *ngIf="startEditing">
+        <h2>Editing Warehouse</h2>
+        <form>
+        <label for="name">Name:</label><input type="text" name="name" value="{{selectedWarehouse.name}}" [(ngModel)]="selectedWarehouse.name">
+        <label for="capacity">Capacity:</label><input type="text" name="capacity" value="{{selectedWarehouse.capacity}}" [(ngModel)]="selectedWarehouse.capacity">
+        <label for="companyId">Company ID:</label><input type="text" name="companyId" value="{{selectedWarehouse.companyId}}" [(ngModel)]="selectedWarehouse.companyId">
+        <label for="numOfEmployees">Number of Employees:</label><input type="text" name="numOfEmployees" value="{{selectedWarehouse.numOfEmployees}}" [(ngModel)]="selectedWarehouse.numOfEmployees">
+        <label for="adminisitrator">Adminisitrator:</label><input type="text" name="adminisitrator" value="{{selectedWarehouse.administratorId}}" [(ngModel)]="selectedWarehouse.administratorId">
+        <button (click)="updateWarehouse(selectedWarehouse)">Update</button>
+        <button (click)="cancelEditButton()">Cancel</button>
+        </form>
+    </div>
+    <div *ngIf="startAdding">
+        <h2>Add Warehouse</h2>
+        <form>
+        <label for="name">Name:</label><input type="text" name="name" value="{{selectedWarehouse.name}}" [(ngModel)]="selectedWarehouse.name">
+        <label for="capacity">Capacity:</label><input type="text" name="capacity" value="{{selectedWarehouse.capacity}}" [(ngModel)]="selectedWarehouse.capacity">
+        <label for="companyId">Company ID:</label><input type="text" name="companyId" value="{{selectedWarehouse.companyId}}" [(ngModel)]="selectedWarehouse.companyId">
+        <label for="numOfEmployees">Number of Employees:</label><input type="text" name="numOfEmployees" value="{{selectedWarehouse.numOfEmployees}}" [(ngModel)]="selectedWarehouse.numOfEmployees">
+        <label for="adminisitrator">Adminisitrator:</label><input type="text" name="adminisitrator" value="{{selectedWarehouse.administratorId}}" [(ngModel)]="selectedWarehouse.administratorId">
+        <button (click)="addWarehouse(selectedWarehouse)">Add Warehouse</button>
+        <button (click)="cancelEditButton()">Cancel</button>
+        </form>
+    </div>
+    <app-item-table [maxCapacity]="selectedWarehouse.capacity" [currentAmountOfItems]="currentAmountOfItems" [warehouseId]="selectedWarehouse.id"></app-item-table>
+    <app-employee-table [warehouseId]="selectedWarehouse.id"></app-employee-table>
+</div>
+

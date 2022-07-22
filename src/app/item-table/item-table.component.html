@@ -1,0 +1,45 @@
+<h1>
+    Items Table
+</h1>
+<table class="container">
+    <thead>
+        <tr>
+            <th>ID&emsp;</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Edit</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of items">
+            <td>{{item.id}}</td>
+            <td>{{item.name}}</td>
+            <td>{{item.description}}</td>
+            <td><button (click)="viewButton(item)">Edit</button></td>
+            <td><button>Delete</button></td>
+        </tr>
+    </tbody>
+</table>
+<button (click)="addNewItemButton()">Add new item</button>
+<div>
+    <div *ngIf="startEditing">
+        <h2>Editing Warehouse</h2>
+        <form>
+        <label for="name">Name:</label><input type="text" name="name" value="{{selectedItem.name}}" [(ngModel)]="selectedItem.name">
+        <label for="description">Description:</label><input type="text" name="description" value="{{selectedItem.description}}" [(ngModel)]="selectedItem.description">
+        <button (click)="updateItem(selectedItem)">Update</button>
+        <button (click)="cancelEditButton()">Cancel</button>
+        </form>
+    </div>
+    <div *ngIf="startAdding">
+        <h2>Editing Warehouse</h2>
+        <form>
+        <label for="name">Name:</label><input type="text" name="name" value="{{selectedItem.name}}" [(ngModel)]="selectedItem.name">
+        <label for="description">Description:</label><input type="text" name="description" value="{{selectedItem.description}}" [(ngModel)]="selectedItem.description">
+        <button (click)="createItem(selectedItem)">Create Item</button>
+        <button (click)="cancelEditButton()">Cancel</button>
+        </form>
+    </div>
+</div>
+
